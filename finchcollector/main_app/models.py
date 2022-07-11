@@ -1,5 +1,3 @@
-from email.policy import default
-from statistics import mode
 from django.db import models
 from datetime import date
 from django.urls import reverse
@@ -10,11 +8,26 @@ MEALS = (
   ('D', 'Dinner')
 )
 
+class Toy(models.Model):
+  name = models.CharField(max_length=50)
+  color = models.CharField(max_length=20)
+
+def __str__(self):
+  return f'{self.color} {self.name}'
+
+def get_absolute_url(self):
+  return reverse('toys_detail', kwargs={'pk': self.id})
+
+
 class Finch(models.Model):
   name = models.CharField(max_length=100)
   breed = models.CharField(max_length=100)
   description = models.TextField(max_length=250)
   age = models.IntegerField()
+  toys = models.ManyToManyField(Toy)
+
+def fed_for_today(self):
+    return self.feeding_set.filter(date=date.today()).count() >= len(MEALS)
 
 class Feeding(models.Model):
   date = models.DateField('feeding date')
